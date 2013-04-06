@@ -51,10 +51,12 @@
 					<fieldset>
 						<legend>Bitte w&auml;hlen Sie ein Zeitintervall</legend>
 						<p>
+							<label for = "datepicker">von:</label>
 							<input type = "text" 
 								id="datepicker"
 								name = "startdate"
 							/>	
+							<label for = "datepicker2">bis:</label>
 							<input type = "text"
 								id="datepicker2"
 								name = "enddate"
@@ -69,23 +71,23 @@
 								value = "Unbereinigt"
 								checked = 'checked'
 							/>
-							Unbereinigt
+							unbereinigte Werte
 							<input type = "radio"
 								name = "Ausreisser"
 								value = "Bereinigt"
 							/>
-							Bereinigt
+							bereinigte Werte
 						</p>
 					</fieldset>
 					<fieldset>
 						<p>
-						<input class = "searchButton" type = "submit" value = "Aktualisieren"/>
+						<input class = "searchButton" type = "submit" value = "Tabelle anzeigen"/>
 						</p>
 					</fieldset>
 				</form>
 				<table border="0" cellspacing="10" cellpadding="0">
 					<?php
-						//ini_set( "display_errors", 0);
+						ini_set( "display_errors", 0);
 						include_once 'dbconnector.php';
 						
 						/* Part für die unbereinigte bzw. bereinigte Tabelle. Es wird gecheckt, ob ein Feature of Interest, ein Startdatum, ein Enddatum 

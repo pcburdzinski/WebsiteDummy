@@ -1,4 +1,5 @@
-<?php include 'tabform.php';?>
+<?php 	include 'tabform.php';
+		include_once 'dbconnector.php';?>
 
 <!DOCTYPE HTML>
 <head>
@@ -79,8 +80,6 @@
 				</form>
 				<table border="0" cellspacing="10" cellpadding="0">
 					<?php
-						//ini_set( "display_errors", 0);
-						include_once 'dbconnector.php';
 						
 						/* Part für die unbereinigte bzw. bereinigte Tabelle. Es wird gecheckt, ob ein Feature of Interest, ein Startdatum, ein Enddatum 
 							und ein Radiobutton ausgewählt wurde */

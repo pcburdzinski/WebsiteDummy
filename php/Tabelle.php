@@ -1,3 +1,5 @@
+<?php include 'tabform.php';?>
+
 <!DOCTYPE HTML>
 <head>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
@@ -44,7 +46,7 @@
 						<p>
 							<label>Messstation</label>
 							<?php
-								include('selopt.php');
+								createOptionList();
 							?>
 						</p>
 					</fieldset>
@@ -66,17 +68,7 @@
 					<fieldset>
 						<legend>Bitte w&auml;hlen Sie aus, ob die Tabelle Ausrei&szlig;er beinhalten soll oder nicht</legend>
 						<p>
-							<input type = "radio"
-								name = "Ausreisser"
-								value = "Unbereinigt"
-								checked = 'checked'
-							/>
-							unbereinigte Werte
-							<input type = "radio"
-								name = "Ausreisser"
-								value = "Bereinigt"
-							/>
-							bereinigte Werte
+							<?php createRadioButtons();?>
 						</p>
 					</fieldset>
 					<fieldset>
@@ -87,7 +79,7 @@
 				</form>
 				<table border="0" cellspacing="10" cellpadding="0">
 					<?php
-						ini_set( "display_errors", 0);
+						//ini_set( "display_errors", 0);
 						include_once 'dbconnector.php';
 						
 						/* Part für die unbereinigte bzw. bereinigte Tabelle. Es wird gecheckt, ob ein Feature of Interest, ein Startdatum, ein Enddatum 

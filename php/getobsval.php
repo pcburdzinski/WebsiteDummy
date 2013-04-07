@@ -18,7 +18,11 @@ function getValues(){
 	}
 	
 $outliers = $_POST['outliers'];
+if(isset($obs)){
 $numargs = count($obs);
+} else {
+	$numargs = 0;
+}
 $rows = array();
 $cols = array();
 // Get all time_stamp of all observations
@@ -26,7 +30,12 @@ $timestamp = getTimeStamp($_POST['foi'], $_POST['startdate'], $_POST['enddate'])
 
 //1, 2 or 3 additional parameters?
 switch ($numargs) {
-	// 1 additional parameter - obs1
+	// no additional parameter set
+	case 0:
+		echo '""';
+		break;
+	
+// 1 additional parameter - obs1
 	case 1:
 		$obs1 = $obs ['0'];
 		// Get the observation values
@@ -39,7 +48,7 @@ switch ($numargs) {
 		// Set the columns
 		$cols = array(
 				array('label' => 'date','type' => 'string'),
-				array('label' => $obs1,'type' => 'number'));
+				array('label' => gerColNames($obs1),'type' => 'number'));
 		
 		// required for $rows - see below
 		$j = 0;	
@@ -90,7 +99,7 @@ switch ($numargs) {
 		echo $table;
 		break;
 		
-	// 2 additional parameter - obs1, obs2	
+// 2 additional parameter - obs1, obs2	
 	case 2:
 		$obs1 = $obs['0'];
 		$obs2 = $obs['1'];
@@ -104,8 +113,8 @@ switch ($numargs) {
 		//Set the columns
 		$cols = array(
 				array('label' => 'date','type' => 'string'),
-				array('label' => $obs1, 'type' => 'number'),
-				array('label' => $obs2, 'type' => 'number'));
+				array('label' => gerColNames($obs1), 'type' => 'number'),
+				array('label' => gerColNames($obs2), 'type' => 'number'));
 		
 		//required for $rows - see below
 		$j = 0;
@@ -216,9 +225,9 @@ switch ($numargs) {
 		//Set the columns
 		$cols = array(
 				array('label' => 'date','type' => 'string'),
-				array('label' => $obs1, 'type' => 'number'),
-				array('label' => $obs2, 'type' => 'number'),
-				array('label' => $obs3, 'type' => 'number'));
+				array('label' => gerColNames($obs1), 'type' => 'number'),
+				array('label' => gerColNames($obs2), 'type' => 'number'),
+				array('label' => gerColNames($obs3), 'type' => 'number'));
 
 		//required for $rows - see below
 		$j = 0;
@@ -361,10 +370,10 @@ switch ($numargs) {
 			//Set the columns
 			$cols = array(
 					array('label' => 'date','type' => 'string'),
-					array('label' => $obs1, 'type' => 'number'),
-					array('label' => $obs2, 'type' => 'number'),
-					array('label' => $obs3, 'type' => 'number'),
-					array('label' => $obs4, 'type' => 'number'));
+					array('label' => gerColNames($obs1), 'type' => 'number'),
+					array('label' => gerColNames($obs2), 'type' => 'number'),
+					array('label' => gerColNames($obs3), 'type' => 'number'),
+					array('label' => gerColNames($obs4), 'type' => 'number'));
 			//required for $rows - see below
 			$j = 0;
 			
@@ -537,11 +546,11 @@ switch ($numargs) {
 				//Set the columns
 				$cols = array(
 						array('label' => 'date','type' => 'string'),
-						array('label' => $obs1, 'type' => 'number'),
-						array('label' => $obs2, 'type' => 'number'),
-						array('label' => $obs3, 'type' => 'number'),
-						array('label' => $obs4, 'type' => 'number'),
-						array('label' => $obs5, 'type' => 'number'));
+						array('label' => gerColNames($obs1), 'type' => 'number'),
+						array('label' => gerColNames($obs2), 'type' => 'number'),
+						array('label' => gerColNames($obs3), 'type' => 'number'),
+						array('label' => gerColNames($obs4), 'type' => 'number'),
+						array('label' => gerColNames($obs5), 'type' => 'number'));
 				//required for $rows - see below
 				$j = 0;
 					
@@ -742,4 +751,42 @@ unset($outliers);
 	echo '""';
 	}
 }
+
+/* german column names */
+function gerColNames($offering){
+	switch ($offering){
+		case "CO_CONCENTRATION":
+			return "Kohlenstoffmonoxid";
+			break;
+			
+		case "NO_CONCENTRATION":
+			return "Stickstoffmonoxid";
+			break;
+				
+		case "NO2_CONCENTRATION":
+			return "Stickstoffdioxid";
+			break;
+				
+		case "O3_CONCENTRATION":
+			return "Ozon";
+			break;
+				
+		case "PM10_CONCENTRATION":
+			return "Feinstaub";
+			break;
+				
+		case "SO2_CONCENTRATION":
+			return "Schwefeldioxid";
+			break;
+				
+		case "TEMPERATURE":
+			return "Temperatur";
+			break;
+			
+		case "AIR_HUMIDITY":
+			return "rel. Luftfeuchtigkeit";
+			break;
+	}
+}
+
 ?>

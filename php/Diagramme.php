@@ -1,4 +1,5 @@
-<?php include 'getobsval.php'; ?>
+<?php 	include 'getobsval.php'; 
+		include 'chartform.php';?>
 
 <!DOCTYPE HTML>
 <head>
@@ -12,12 +13,42 @@
 	
  <script>
 $(function() {
-	$( "#datepicker" ).datepicker( { dateFormat: 'yy-mm-dd' });
-	$( "#datepicker").datepicker('setDate', '+0');
-	$( "#datepicker2" ).datepicker( {dateFormat: 'yy-mm-dd' });
-	$( "#datepicker2").datepicker('setDate', '+1');
 
-});
+	<?php date_default_timezone_set('Europe/Berlin');?>
+	$( "#datepicker" ).datepicker( {required: true, 
+									dpDate: true,
+									maxDate: new Date ( (new Date()).getTime()), 
+									dateFormat: 'yy-mm-dd' });
+	$( "#datepicker2" ).datepicker( {required: true,
+									dpDate: true,
+									minDate: 
+									maxDate: new Date ( (new Date()).getTime()),
+									dateFormat: 'yy-mm-dd' });
+
+	var startdate = "<?php 
+		if (isset($_POST['startdate']))
+			{echo  $_POST['startdate'];} 
+		else {echo date("Y-m-d",time());} ?>";
+
+	var enddate = "<?php   
+		if (isset($_POST['enddate']))
+			{echo $_POST['enddate'];} 
+		else {echo date("Y-m-d",time());}?>";
+		
+	if (typeof startdate !== "undefined"){
+		$ ( "#datepicker").datepicker('setDate', startdate);
+	} else {
+		$( "#datepicker").datepicker('setDate', '+0');
+	}
+	
+	if (typeof enddate !== "undefined"){
+		$ ( "#datepicker2").datepicker('setDate', enddate);
+	} else {
+		$( "#datepicker2").datepicker('setDate', '+0');
+	}		
+}
+)
+;
 </script>   
     
 <script>
@@ -46,9 +77,9 @@ $(function() {
           var chart3 = new google.visualization.LineChart(document.getElementById('chart3_div'));
 
           
-          chart.draw(data, {width: 700, height: 400, vAxis:{title: "Werte in ppm", viewWindow:{min: 0}}, hAxis:{title: "Datum", slantedText:false}});
-          chart2.draw(data2, {width: 700, height: 400, vAxis:{title: "Temperatur in °C"}, hAxis:{slantedText:false}});
-          chart3.draw(data3, {width: 700, height: 400, vAxis:{title:"rel. Luftfeuchtigkeit in %", viewWindow:{min: 0}},hAxis:{slantedText:false}});
+          chart.draw(data, {curveType: "function", width: 900, height: 400, vAxis:{title: "Werte in ppm", viewWindow:{min: 0}}, hAxis:{title: "Datum", slantedText:false}, chartArea:{width: '50%'}});
+          chart2.draw(data2, {curveType: "function", width: 900, height: 400, vAxis:{title: "Temperatur in °C"}, hAxis:{slantedText:false}, chartArea:{width: '50%'}});
+          chart3.draw(data3, {curveType: "function", width: 900, height: 400, vAxis:{title:"rel. Luftfeuchtigkeit in %", viewWindow:{min: 0}},hAxis:{slantedText:false}, chartArea:{width: '50%'}});
 	}
 	else {
     	// Create our data table out of JSON data loaded from server.
@@ -57,7 +88,7 @@ $(function() {
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         
-        chart.draw(data, {width: 700, height: 400, vAxis:{title: "Werte in µg/m³", viewWindow:{min: 0}}, hAxis:{title: "Datum", slantedText:false}});
+        chart.draw(data, {width: 700, height: 400, vAxis:{title: "Werte in µg/m³", viewWindow:{min: 0}}, hAxis:{title: "Datum", slantedText:false}, chartArea:{width: '50%'}});
 	}
 }
 	
@@ -84,6 +115,7 @@ function changeForm(name){
 // If Lanuv-station Geist is set, disable CO-Checkbox and enable O3, SO2, PM10 and NO
 	if (name == "Geist"){
 		checkboxCO.setAttribute('disabled', true);
+		checkboxCO.checked = false;
 		checkboxO3.removeAttribute('disabled');
 		checkboxSO2.removeAttribute('disabled');
 		checkboxPM10.removeAttribute('disabled');
@@ -92,8 +124,11 @@ function changeForm(name){
 // If Lanuv-Station Weseler is set, disable CO, O3 and SO2-Checkbox and enable PM10 and NO
 	else { if (name == "Weseler") {
 		checkboxCO.setAttribute('disabled', true);
+		checkboxCO.checked = false;
 		checkboxO3.setAttribute('disabled', true);
+		checkboxO3.checked = false;
 		checkboxSO2.setAttribute('disabled', true);
+		checkboxSO2.checked = false;
 		checkboxPM10.removeAttribute('disabled');
 		checkboxNO.removeAttribute('disabled');
 	}
@@ -102,9 +137,11 @@ function changeForm(name){
 		checkboxCO.removeAttribute('disabled');
 		checkboxO3.removeAttribute('disabled');
 		checkboxSO2.setAttribute('disabled', true);
+		checkboxSO2.checked = false;
 		checkboxPM10.setAttribute('disabled', true);
+		checkboxPM10.checked = false;
 		checkboxNO.setAttribute('disabled', true);
-		
+		checkboxNO.checked = false;
 	}
 	}
 }
@@ -113,7 +150,7 @@ function changeForm(name){
 
 </head>
 
-<body>
+<body onload="changeForm(document.getElementById('foi').value)">
 	<div id="wrapper">
 		<div id="headerwrap">
 			<div id="header">
@@ -138,7 +175,7 @@ function changeForm(name){
 						<legend>Bitte w&auml;hlen Sie eine Messstation</legend>
 						<p>
 							<label>Messstation</label>
-							<?php include('selopt.php');?>
+							<?php createOptionList();?>
 						</p>
 					</fieldset>
 					<fieldset>
@@ -160,52 +197,18 @@ function changeForm(name){
 					<fieldset>
 						<legend>Bitte w&auml;hlen Sie aus, ob das Diagramm Ausrei&szlig;er beinhalten soll oder nicht</legend>
 						<p>
-						<input type="radio" name="outliers" value="yes" checked> unbereinigte Werte</input>
-						<input type="radio" name="outliers" value="no"> bereinigte Werte</input>
+						<?php 
+							createRadioButtons();
+						?>
+
 						</p>
 					</fieldset>
 					<fieldset>
 						<legend>Bitte w&auml;hlen Sie aus, welche Messwerte sie im Diagramm anzeigen wollen</legend>
 						<p>
-						
-						<input type = "checkbox"
-							id = "chkCO"
-							value = "CO_CONCENTRATION"
-							name = "observation[]" />
-						<label for = "chkCO">CO</label>
-
-						<input type = "checkbox"
-							id="chkNO"
-							value = "NO_CONCENTRATION"
-							name= "observation[]"
-							disabled />
-						<label for = "chkNO">NO</label>
-						
-						<input type = "checkbox"
-							id = "chkNO2"
-							value = "NO2_CONCENTRATION"
-							name = "observation[]" />
-						<label for = "chkNO2">NO2</label>
-						
-						<input type = "checkbox"
-							id = "chkO3"
-							value = "O3_CONCENTRATION"
-							name = "observation[]" />
-						<label for = "chkO3">O3</label>
-
-						<input type = "checkbox"
-							id = "chkPM10"
-							value = "PM10_CONCENTRATION"
-							name = "observation[]"
-							disabled />
-						<label for = "chkPM10">PM10</label>	
-						
-						<input type = "checkbox"
-							id = "chkSO2"
-							value = "SO2_CONCENTRATION"
-							name = "observation[]"
-							disabled />
-						<label for = "chkSO2">SO2</label>
+						<?php 
+							createCheckboxes();
+						?>						
 						</p>
 					</fieldset>
 
@@ -216,6 +219,7 @@ function changeForm(name){
 						/>
 					</fieldset>		
 				</form>
+				<br>
 				<?php 
 				if (isset($_POST['foi'])){
 					if ($_POST['foi'] != "Geist" OR $_POST['foi'] != "Weseler"){

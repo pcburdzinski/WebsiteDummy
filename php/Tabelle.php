@@ -41,7 +41,7 @@
 		</div>
 		<div id="contentwrap">
 			<div id="content">
-				<form action = "#" method ="post" name="form">
+				<form action = "Tabelle.php" method ="post" name="form">
 					<fieldset>
 						<legend>Bitte w&auml;hlen Sie eine Messstation</legend>
 						<p>
@@ -84,8 +84,8 @@
 						/* Part für die unbereinigte bzw. bereinigte Tabelle. Es wird gecheckt, ob ein Feature of Interest, ein Startdatum, ein Enddatum 
 							und ein Radiobutton ausgewählt wurde */
 							
-						if (isset($_POST['foi']) AND isset($_POST['startdate']) AND isset($_POST['enddate']) AND isset($_POST["Ausreisser"])){
-							$selected_radio = $_POST['Ausreisser'];
+						if (isset($_POST['foi']) AND isset($_POST['startdate']) AND isset($_POST['enddate']) AND isset($_POST["outliers"])){
+							$selected_radio = $_POST['outliers'];
 							
 							/* Der Part für die unbereinigte Tabelle. Zunächst werden einige Variablen definiert und auf Werte
 								aus der Datenbank gesetzt.
@@ -93,7 +93,7 @@
 								$end: das ausgewählte Enddatum
 								$foi: die ausgewählte Messstation */	
 							
-							if ($selected_radio == 'Unbereinigt'){
+							if ($selected_radio == 'yes'){
 								$start = $_POST['startdate'];
 								$end = $_POST['enddate'];
 								$foi = $_POST['foi'];
@@ -262,7 +262,7 @@
 							Prinzipiell ist die Vorgehensweise analog zum obigen Teil, nur dass andere Funktionen verwendet werden,
 							um Ausreißer in der Datenbank zu identifizieren. */
 						
-							if ($selected_radio == 'Bereinigt'){
+							if ($selected_radio == 'no'){
 								$start = $_POST['startdate'];
 								$end = $_POST['enddate'];
 								$foi = $_POST['foi'];
@@ -461,9 +461,9 @@
 								Dadurch wird dann automatisch eine Tabelle mit Daten von heute und den vergangenen zwei Tagen erstellt.
 								Die Vorgehensweise ist analog zu den bereits vorangegangenen Teilen. */
 							
-							$start = $_GET["starting"];
-							$end = $_GET["ending"];
-							$foi = $_GET["foiid"];
+							$start = $_GET['starting'];
+							$end = $_GET['ending'];
+							$foi = $_GET['foiid'];
 							$num = getTableNumRows($foi,$start,$end);			
 							$result1 = getTableTimeStamp($foi,$start,$end);
 							if ($foi != 'Weseler' AND $foi != 'Geist'){$result2 = getTableOffering($foi,$start,$end, 'TEMPERATURE');}

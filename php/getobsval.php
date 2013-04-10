@@ -26,7 +26,7 @@ $numargs = count($obs);
 $rows = array();
 $cols = array();
 // Get all time_stamp of all observations
-$timestamp = getTimeStamp($_POST['foi'], $_POST['startdate'], $_POST['enddate']);
+	$timestamp = getTimeStamp($_POST['foi'], $_POST['startdate'], $_POST['enddate']);
 
 //1, 2 or 3 additional parameters?
 switch ($numargs) {
@@ -788,5 +788,4 @@ function gerColNames($offering){
 			break;
 	}
 }
-
 ?>

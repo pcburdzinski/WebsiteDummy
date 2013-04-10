@@ -252,6 +252,11 @@ function arrayToJSON($cols, $rows){
 	return $table;
 }
 
+/* Get the Vars ($_GET) */
+function getVar($item){
+	return isset($_GET[$item]) ? $_GET[$item] : '';
+}
+
 //----------------------------------------------------------------------------------------
 
 /* Gibt die Anzahl der benötigten Spalten für die Tabelle zurück */

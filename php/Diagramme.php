@@ -1,5 +1,30 @@
 <?php 	include 'getobsval.php'; 
-		include 'chartform.php';?>
+		include 'chartform.php';
+		include 'chkbox.php';
+
+/* for $_GET */
+		$foi = getVar("foi");
+		$startdate = getVar("startdate");
+		$enddate = getVar("enddate");
+		$observation = getVar("observation");
+/* if $foi, startdate, enddate and observation != '', then override $_POST */		
+		if ($foi != ''){
+			$_POST['foi'] = $_GET['foi'];
+		}
+		
+		if ($startdate != ''){
+			$_POST['startdate'] = $_GET['startdate'];
+		}
+		
+		if ($enddate != ''){
+			$_POST['enddate'] = $_GET['enddate'];
+		}
+		
+		if ($observation != ''){
+			$_POST['observation'] = $_GET['observation'];
+		}
+		
+		?>
 
 <!DOCTYPE HTML>
 <head>
@@ -10,21 +35,26 @@
 	<script src="../js/ger_dpicker.js"></script>
 	<link rel="shortcut icon" href="../images/egg_v1.png">
 	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-	
- <script>
-$(function() {
 
+		
+<script>
+// ----------------------------------- DATEPICKER -----------------------------------
+ // Create the datepickers
+$(function() {
+	// Settings for both datepickers
 	<?php date_default_timezone_set('Europe/Berlin');?>
 	$( "#datepicker" ).datepicker( {required: true, 
 									dpDate: true,
 									maxDate: new Date ( (new Date()).getTime()), 
+									onClose: chkdates,
 									dateFormat: 'yy-mm-dd' });
 	$( "#datepicker2" ).datepicker( {required: true,
-									dpDate: true,
-									minDate: 
+									dpDate: true, 
 									maxDate: new Date ( (new Date()).getTime()),
+									onClose: chkdates,
 									dateFormat: 'yy-mm-dd' });
 
+// If start- and enddate were set, get the dates and show it. If not: date = today
 	var startdate = "<?php 
 		if (isset($_POST['startdate']))
 			{echo  $_POST['startdate'];} 
@@ -34,23 +64,41 @@ $(function() {
 		if (isset($_POST['enddate']))
 			{echo $_POST['enddate'];} 
 		else {echo date("Y-m-d",time());}?>";
-		
-	if (typeof startdate !== "undefined"){
+// set the dates		
 		$ ( "#datepicker").datepicker('setDate', startdate);
-	} else {
-		$( "#datepicker").datepicker('setDate', '+0');
-	}
 	
-	if (typeof enddate !== "undefined"){
 		$ ( "#datepicker2").datepicker('setDate', enddate);
-	} else {
-		$( "#datepicker2").datepicker('setDate', '+0');
-	}		
+
+//check the dates
+		function chkdates(){
+			var dateStart = $("#datepicker").datepicker("getDate");
+			var dateEnd = $("#datepicker2").datepicker("getDate");
+			var submit = document.getElementById("submit");
+			// miliseconds
+			var difference = (dateEnd - dateStart) / (86400 * 1000 *7);
+
+// startdate > enddate
+			if (difference < 0){
+				alert("Das Anfangsdatum muss vor dem Enddatum liegen!");
+				submit.disabled = true;
+			}
+// enddate - startdate > 7 days
+			if (difference > 1){
+				alert("Der Zeitraum darf maximal 7 Tage betragen!");
+				submit.disabled = true;
+			}
+			if (difference >= 0 && difference <= 1){
+				submit.disabled = false;
+			}
+		}	
 }
 )
 ;
+
 </script>   
-    
+ 	
+	
+   
 <script>
     // Load the Visualization API and the piechart package.
     google.load('visualization', '1', {'packages':['corechart']});
@@ -104,50 +152,6 @@ $(function() {
    	}
 </script>
 
-<script>
-// enable or disable the checkboxes
-function changeForm(name){
-	var checkboxCO = document.getElementById("chkCO"),
-		checkboxO3 = document.getElementById("chkO3"),
-		checkboxSO2 = document.getElementById("chkSO2"),
-		checkboxPM10 = document.getElementById("chkPM10");
-		checkboxNO = document.getElementById("chkNO");
-// If Lanuv-station Geist is set, disable CO-Checkbox and enable O3, SO2, PM10 and NO
-	if (name == "Geist"){
-		checkboxCO.setAttribute('disabled', true);
-		checkboxCO.checked = false;
-		checkboxO3.removeAttribute('disabled');
-		checkboxSO2.removeAttribute('disabled');
-		checkboxPM10.removeAttribute('disabled');
-		checkboxNO.removeAttribute('disabled');
-	}
-// If Lanuv-Station Weseler is set, disable CO, O3 and SO2-Checkbox and enable PM10 and NO
-	else { if (name == "Weseler") {
-		checkboxCO.setAttribute('disabled', true);
-		checkboxCO.checked = false;
-		checkboxO3.setAttribute('disabled', true);
-		checkboxO3.checked = false;
-		checkboxSO2.setAttribute('disabled', true);
-		checkboxSO2.checked = false;
-		checkboxPM10.removeAttribute('disabled');
-		checkboxNO.removeAttribute('disabled');
-	}
-// else AQE is set
-	else {
-		checkboxCO.removeAttribute('disabled');
-		checkboxO3.removeAttribute('disabled');
-		checkboxSO2.setAttribute('disabled', true);
-		checkboxSO2.checked = false;
-		checkboxPM10.setAttribute('disabled', true);
-		checkboxPM10.checked = false;
-		checkboxNO.setAttribute('disabled', true);
-		checkboxNO.checked = false;
-	}
-	}
-}
-
-</script>
-
 </head>
 
 <body onload="changeForm(document.getElementById('foi').value)">
@@ -185,12 +189,14 @@ function changeForm(name){
 						<input type = "text" 
 							id="datepicker"
 							name = "startdate"
+							readonly = "true"
 							/>
 
 						<label for = "datepicker2">bis:</label>
 						<input type = "text"
 							id="datepicker2"
 							name = "enddate"
+							readonly = "true"
 							/>		
 						</p>
 					</fieldset>
@@ -215,6 +221,7 @@ function changeForm(name){
 					<fieldset>
 						<input 	class = "searchButton"
 								type = "submit"
+								id = "submit"
 								value = "Diagramm anzeigen"
 						/>
 					</fieldset>		

@@ -47,10 +47,8 @@ $(function() {
 var numchked = $(":checkbox").filter(":checked").size();
 if (numchked > 3){
 	alert("Es wurden mehr als 3 Messwerte ausgewählt");
-	document.getElementById('submit').disabled = true;	
 }
 else {
-	document.getElementById('submit').disabled = false;
 }
 	
 }
@@ -192,8 +190,8 @@ $(function() {
         <?php
         //PM 10 checked?
         if (isset($_POST['PM10'])){ if($_POST['PM10'] == "PM10_CONCENTRATION"){ ?>
-		var data5 = new google.visualization.DataTable(<?php getValues("PM10_CONCENTRATION")?>);
-        var chart5 = new google.visualization.LineChart(document.getElementById('chart5_div'));
+		var data3 = new google.visualization.DataTable(<?php getValues("PM10_CONCENTRATION")?>);
+        var chart3 = new google.visualization.LineChart(document.getElementById('chart3_div'));
 		<?php }}?>
         <?php lanuvChartOptions();	?>
         

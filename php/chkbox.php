@@ -9,12 +9,13 @@ function changeForm(name){
 		checkboxNO2 = document.getElementById("chkNO2");
 // If Lanuv-station Geist is set, disable CO-Checkbox and enable O3, SO2, PM10 and NO
 	if (name == "Geist"){
-		checkboxCO.setAttribute('disabled', true);
+		checkboxCO.disabled = true;
 		checkboxCO.checked = false;
-		checkboxO3.removeAttribute('disabled');
-		checkboxSO2.removeAttribute('disabled');
-		checkboxPM10.removeAttribute('disabled');
-		checkboxNO.removeAttribute('disabled');
+		
+		checkboxO3.disabled = false;
+		checkboxSO2.disabled = false;
+		checkboxPM10.disabled = false;
+		checkboxNO.disabled = false;
 		<?php 
 			if (isset($_POST['observation']) AND isset($_POST['foi'])){
 				if ($_POST['foi'] == "Geist"){
@@ -36,8 +37,13 @@ function changeForm(name){
 					else {
 						echo 'checkboxO3.checked = false;';
 					}
-					if (in_array('PM10_CONCENTRATION', $_POST['observation'])){
-						echo 'checkboxPM10.checked = true;';
+					if (isset($_POST['PM10'])){
+						if ($_POST['PM10'] == "PM10_CONCENTRATION"){
+							echo 'checkboxPM10.checked = true;';
+						}
+						else {
+						echo 'checkboxPM10.checked = false;';
+					}
 					}
 					else {
 						echo 'checkboxPM10.checked = false;';
@@ -65,14 +71,15 @@ function changeForm(name){
 	}
 // If Lanuv-Station Weseler is set, disable CO, O3 and SO2-Checkbox and enable PM10 and NO
 	else { if (name == "Weseler") {
-		checkboxCO.setAttribute('disabled', true);
+		checkboxCO.disabled = true;
 		checkboxCO.checked = false;
-		checkboxO3.setAttribute('disabled', true);
+		checkboxO3.disabled = true;
 		checkboxO3.checked = false;
-		checkboxSO2.setAttribute('disabled', true);
+		checkboxSO2.disabled = true;
 		checkboxSO2.checked = false;
-		checkboxPM10.removeAttribute('disabled');
-		checkboxNO.removeAttribute('disabled');
+		
+		checkboxPM10.disabled = false;
+		checkboxNO.disabled = false;
 		<?php 
 			if (isset($_POST['observation']) AND isset($_POST['foi'])){
 				if ($_POST['foi'] == "Weseler"){
@@ -88,8 +95,13 @@ function changeForm(name){
 					else {
 						echo 'checkboxNO2.checked = false;';
 					}
-					if (in_array('PM10_CONCENTRATION', $_POST['observation'])){
-						echo 'checkboxPM10.checked = true;';
+					if (isset($_POST['PM10'])){
+						if ($_POST['PM10'] == "PM10_CONCENTRATION"){
+							echo 'checkboxPM10.checked = true;';
+						}
+						else {
+						echo 'checkboxPM10.checked = false;';
+					}
 					}
 					else {
 						echo 'checkboxPM10.checked = false;';
@@ -109,16 +121,17 @@ function changeForm(name){
 	}
 // else AQE is set
 	else {
-		checkboxCO.removeAttribute('disabled');
+		checkboxCO.disabled = false;
 		checkboxCO.checked = true;
-		checkboxO3.removeAttribute('disabled');
+		checkboxO3.disabled = false;
 		checkboxO3.checked = true;
 		checkboxNO2.checked = true;
-		checkboxSO2.setAttribute('disabled', true);
+		
+		checkboxSO2.disabled = true;
 		checkboxSO2.checked = false;
-		checkboxPM10.setAttribute('disabled', true);
+		checkboxPM10.disabled = true;
 		checkboxPM10.checked = false;
-		checkboxNO.setAttribute('disabled', true);
+		checkboxNO.disabled = true;
 		checkboxNO.checked = false;
 		<?php 
 		if (isset($_POST['observation']) AND isset($_POST['foi'])){

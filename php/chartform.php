@@ -44,7 +44,9 @@ function createRadioButtons(){
 	
 }
 
-/* Creates checkboxes */
+/* Creates checkboxes
+ * If the checkbox was checked and the formular was sumbitted, recheck these checkboxes
+ */
 function createCheckboxes(){
 	echo' 				<input type = "checkbox"
 							id = "chkCO"
@@ -107,9 +109,9 @@ function createCheckboxes(){
 						<input type = "checkbox"
 							id = "chkPM10"
 							value = "PM10_CONCENTRATION"
-							name = "observation[]"';
-							 		if (isset($_POST['observation'])){
-							 			if (in_array("PM10_CONCENTRATION", $_POST['observation'])){
+							name = "PM10"';
+							 		if (isset($_POST['observation_'])){
+							 			if ($_POST['PM10'] == "PM10_CONCENTRATION"){
 											echo 'checked ="checked"';
 										}
 									}								

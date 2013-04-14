@@ -4,8 +4,8 @@ $db = array (
 	"type" => "pgsql",
 	"host" => "localhost",
 	"port" => "5432",
-	"name" => "SosDatabase",
-	"user" => "postgres",
-	"password" => "test"
+	"name" => "SOSDB",
+	"user" => "TestUser",
+	"password" => "test123"
 );
 ?>

@@ -1,28 +1,33 @@
-<?php 	include 'getobsval.php'; 
+<?php 	//include 'getobsval.php'; 
 		include 'chartform.php';
 		include 'chkbox.php';
+		include 'getobsval.php';
+		include 'chartdisopts.php';
 
 /* for $_GET */
-		$foi = getVar("foi");
-		$startdate = getVar("startdate");
-		$enddate = getVar("enddate");
-		$observation = getVar("observation");
+		$g_foi = getVar("foiid");
+		$g_startdate = getVar("starting");
+		$g_enddate = getVar("ending");
+		
+
+		//$observation = getVar("observation");
 /* if $foi, startdate, enddate and observation != '', then override $_POST */		
-		if ($foi != ''){
-			$_POST['foi'] = $_GET['foi'];
+		if ($g_foi != ''){
+			$_POST['foi'] = $_GET['foiid'];
 		}
 		
-		if ($startdate != ''){
-			$_POST['startdate'] = $_GET['startdate'];
+		if ($g_startdate != ''){
+			$_POST['startdate'] = $_GET['starting'];
 		}
 		
-		if ($enddate != ''){
-			$_POST['enddate'] = $_GET['enddate'];
+		if ($g_enddate != ''){
+			$_POST['enddate'] = $_GET['ending'];
 		}
 		
-		if ($observation != ''){
+		
+/*		if ($observation != ''){
 			$_POST['observation'] = $_GET['observation'];
-		}
+		} */
 		
 		?>
 
@@ -36,6 +41,22 @@
 	<link rel="shortcut icon" href="../images/egg_v1.png">
 	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
 
+	
+<script>
+$(function() {
+var numchked = $(":checkbox").filter(":checked").size();
+if (numchked > 3){
+	alert("Es wurden mehr als 3 Messwerte ausgewählt");
+	document.getElementById('submit').disabled = true;	
+}
+else {
+	document.getElementById('submit').disabled = false;
+}
+	
+}
+)
+</script>	
+	
 		
 <script>
 // ----------------------------------- DATEPICKER -----------------------------------
@@ -124,19 +145,58 @@ $(function() {
           var chart2 = new google.visualization.LineChart(document.getElementById('chart2_div'));
           var chart3 = new google.visualization.LineChart(document.getElementById('chart3_div'));
 
-          
-          chart.draw(data, {curveType: "function", width: 900, height: 400, vAxis:{title: "Werte in ppm", viewWindow:{min: 0}}, hAxis:{title: "Datum", slantedText:false}, chartArea:{width: '50%'}});
-          chart2.draw(data2, {curveType: "function", width: 900, height: 400, vAxis:{title: "Temperatur in °C"}, hAxis:{slantedText:false}, chartArea:{width: '50%'}});
-          chart3.draw(data3, {curveType: "function", width: 900, height: 400, vAxis:{title:"rel. Luftfeuchtigkeit in %", viewWindow:{min: 0}},hAxis:{slantedText:false}, chartArea:{width: '50%'}});
-	}
+    <?php AQEChartOptions();?>
+}
 	else {
     	// Create our data table out of JSON data loaded from server.
-        var data = new google.visualization.DataTable(jsonData);
+   		// Instantiate and draw our chart, passing in some options.
+    	
+		<?php 
+		//Number of offerings
+		if (isset($_POST['observation'])){
+			$numoff = count($_POST['observation']);
+			switch($numoff){
+				case 1: ?> var data = new google.visualization.DataTable(<?php getValues($_POST['observation']['0'])?>);
+				var chart = new google.visualization.LineChart(document.getElementById('chart_div')); <?php
+		        break;
+		        
+				case 2: ?> var data = new google.visualization.DataTable(<?php getValues($_POST['observation']['0'])?>);
+				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				var data2 = new google.visualization.DataTable(<?php getValues($_POST['observation']['1'])?>);
+				var chart2 = new google.visualization.LineChart(document.getElementById('chart2_div')); <?php
+				break;
+				
+				case 3: ?> var data = new google.visualization.DataTable(<?php getValues($_POST['observation']['0'])?>);
+				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				var data2 = new google.visualization.DataTable(<?php getValues($_POST['observation']['1'])?>);
+				var chart2 = new google.visualization.LineChart(document.getElementById('chart2_div'));
+				var data3 = new google.visualization.DataTable(<?php getValues($_POST['observation']['2'])?>);
+				var chart3 = new google.visualization.LineChart(document.getElementById('chart3_div')); <?php
+				break;
+				
+				case 4: ?> var data = new google.visualization.DataTable(<?php getValues($_POST['observation']['0'])?>);
+				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				var data2 = new google.visualization.DataTable(<?php getValues($_POST['observation']['1'])?>);
+				var chart2 = new google.visualization.LineChart(document.getElementById('chart2_div'));
+				var data3 = new google.visualization.DataTable(<?php getValues($_POST['observation']['2'])?>);
+				var chart3 = new google.visualization.LineChart(document.getElementById('chart3_div'));
+				var data4 = new google.visualization.DataTable(<?php getValues($_POST['observation']['3'])?>);
+				var chart4 = new google.visualization.LineChart(document.getElementById('chart4_div')); <?php
+				break;				
+		        
+		}
+}
+?>
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        <?php
+        //PM 10 checked?
+        if (isset($_POST['PM10'])){ if($_POST['PM10'] == "PM10_CONCENTRATION"){ ?>
+		var data5 = new google.visualization.DataTable(<?php getValues("PM10_CONCENTRATION")?>);
+        var chart5 = new google.visualization.LineChart(document.getElementById('chart5_div'));
+		<?php }}?>
+        <?php lanuvChartOptions();	?>
         
-        chart.draw(data, {width: 700, height: 400, vAxis:{title: "Werte in µg/m³", viewWindow:{min: 0}}, hAxis:{title: "Datum", slantedText:false}, chartArea:{width: '50%'}});
 	}
 }
 	
@@ -150,11 +210,11 @@ $(function() {
     // Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(drawChart);
    	}
-</script>
+</script>       
 
 </head>
 
-<body onload="changeForm(document.getElementById('foi').value)">
+<body onload = "changeForm(document.getElementById('foi').value);">
 	<div id="wrapper">
 		<div id="headerwrap">
 			<div id="header">
@@ -168,8 +228,10 @@ $(function() {
 				<li><a href="Karte.php">Karte</a></li>
 				<li class="current"><a href="Diagramme.php">Diagramme</a></li>
 				<li><a href="Tabelle.php">Tabelle</a></li>
+				<li><a href="SOS.php">SOS</a></li>
 				<li><a href="Hilfe.php">Hilfe</a></li>
 				<li><a href="Impressum.php">Impressum</a></li>
+				<li><a href="../mobile/homemobile.php">Mobile Ansicht</a></li>
 			</ul>
 		</div>
 		<div id="contentwrap">
@@ -235,7 +297,33 @@ $(function() {
 						<div id="chart2_div"></div>
 						<div id="chart3_div"></div> ';
 						}
-					else { echo '<div id="chart_div"></div>'; }} ?>
+					else { 
+						switch($numoff){
+							case 1: echo '<div id="chart_div"></div>';
+							break;
+							
+							case 2: echo '<div id="chart_div"></div>
+									<div id="chart2_div"></div>';
+							break;
+							
+							case 3: echo '<div id="chart_div"></div>
+									<div id="chart2_div"></div>
+									<div id="chart3_div"></div>';
+							break;
+							
+							case 4: echo '<div id="chart_div"></div>
+									<div id="chart2_div"></div>
+									<div id="chart3_div"></div>
+									<div id="chart4_div"></div>';
+							
+							
+						}
+								//PM10 checked
+								if(isset($_POST['PM10'])){ if($_POST['PM10'] == "PM10_CONCENTRATION"){
+								echo '
+								<div id="chart5_div"></div>';}}
+								}
+								} ?>
 		</div>
 	</div>
   </body>

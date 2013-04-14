@@ -28,29 +28,20 @@
 				<li class="current"><a href="Karte.php">Karte</a></li>
 				<li><a href="Diagramme.php">Diagramme</a></li>
 				 <li><a href="Tabelle.php">Tabelle</a></li>
-				 <li><a href="Hilfe.php">Hilfe</a></li>
+				 <li><a href="SOS.php">SOS</a></li>
+				 <li><a href="Hilfe.php">Hilfe & FAQ</a></li>
 				 <li><a href="Impressum.php">Impressum</a></li>
+				 <li><a href="../mobile/homemobile.php">Mobile Ansicht</a></li>
 				</ul>
 		</div>
 		</div>
 		<br></br>
         <div id="map"></div>
-		<form method='POST' onsubmit='addr_search();return false;'> <!-- Auch Drücken von Enter löst die Suche aus -->
-		<div id="search"> <!-- Schriftzug "Stadt eingeben..." taucht auf und verschwindet" -->
-			<input class="searchField" type="text" name="addr" value="Stadt eingeben..." 
-				onfocus="if (this.value == 'Stadt eingeben...')
-					{this.value = '';}" onblur="if (this.value == '')
-					{this.value = 'Stadt eingeben...';}" 
-				id="addr" size="10" />
-			<button class="searchButton" type="button" onclick="addr_search();">Suche</button> <!-- Anpassen des Search Buttons -->
-			<div id="results"/>
-		</div>
-		</form>
 		
 		<?php
 			ini_set( "display_errors", 0);
 			include_once 'dbconnector.php';
-			/* Jegliche Variablen der Getter zum Abrufen der aktuellsten Daten */
+			/* Every variable of the getter functions to get the actual data */
 			$eggname = getName();				
 			$eggfoi = getFoiIdMap();
 			$eggcoords = getEggCoords();
@@ -60,6 +51,7 @@
 			$eggno2 = getLatestOffering('NO2_CONCENTRATION');
 			$eggo3 = getLatestOffering('O3_CONCENTRATION');
 			$eggtime = getLatestTimeStamp();
+			
 
 			$lanuvname = getLanuvName();
 			$lanuvfoi = getLanuvFoiId();
@@ -71,10 +63,11 @@
 			$lanuvo3 = getLatestLanuvOffering('O3_CONCENTRATION');
 			$lanuvtime = getLatestLanuvTimeStamp();
 			
-			/* Definition von heute und vorgestern für die Weiterleitung der Tabelle aus dem Popup.
-				Bei dem heutigen Tag muss ein Tag aufaddiert werden, da der Datepicker sonst <$heute annimmt, statt <=$heute */
+			/* Define today and two days ago for the redirection from the popup to the table.
+				To totday a day must be added up so the datepicker chooses the correct day. */
+				
 			$vorgestern = date("Y-m-d", strtotime("-2 day"));
-			$heute = date("Y-m-d", strtotime("+1 day"));
+			$heute = date("Y-m-d");
 
 		?>
 		
@@ -84,7 +77,7 @@
 
 		function load_map() {
 			
-			map = new L.map('map', {zoomControl: true}).setView([51.947, 7.61],13);
+			map = new L.map('map', {zoomControl: true}).setView([51.947, 7.62],13);
 			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				maxZoom: 18,
 				attribution: 'Map data &copy; 2012 <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
@@ -99,8 +92,8 @@
 			});
 						
 			var i = 0;						
-			var EierLayer = new Array();	// Verwendet für die Layerauswahl der Eier
-			/* -------Json Kodierung der am Anfang definierten Variablen. eval() damit auch was dem Objekt zugeordnet wird------- */
+			var EierLayer = new Array();	// Used for the layer selection of the eggs
+			/* -------Json encoding of the variables at the beginning. eval() so something will be added to the object------- */
 			var EierNamen = eval(' (' + <?php print json_encode(json_encode($eggname)); ?> + ')');
 			var EierFoi = eval(' (' + <?php print json_encode(json_encode($eggfoi)); ?> + ')');
 			var EierCoords = eval( ' (' + <?php print json_encode(json_encode($eggcoords)); ?> + ')');
@@ -111,15 +104,15 @@
 			var EierO3 = eval( ' (' + <?php print json_encode(json_encode($eggo3)); ?> + ')');
 			var EierTime = eval( ' (' + <?php print json_encode(json_encode($eggtime)); ?> + ')');
 			
-			while (i <= EierFoi.length - 1) {						// für alle Eier durchlaufen, welche sich in der Datenbank befinden
-				var EggName = EierNamen[i].feature_of_interest_name;	// Einamen auslesen
+			while (i <= EierFoi.length - 1) {						// passing through all eggs which are saved in the database
+				var EggName = EierNamen[i].feature_of_interest_name;	// get the egg name
 				
 				var EggFoi = EierFoi[i].feature_of_interest_id;
 				
-				var EggCoordX = EierCoords[i].st_y;		// Eikoordinaten. x und y Koordinate sind in der Datenbank vertauscht
+				var EggCoordX = EierCoords[i].st_y;		// egg coordinates. x are y coordinate are swapped in the database
 				var EggCoordY = EierCoords[i].st_x;
 				
-				/* Ausgabe der ganzen Messwerte. Wenn kein Wert vorhanden ist wird ' - ' ins Feld geschrieben */
+				/* Output of all values. If there is no value a '-' is written */
 				
 				if (EierTemp[i] === undefined) {var EggTemp = '-'}	 
 				else var EggTemp = EierTemp[i].numeric_value;			
@@ -139,8 +132,8 @@
 				if (EierTime[i] === undefined) {var EggTime = '-'}
 				else var EggTime = EierTime[i].time_stamp;
 			
-				/* Erstellen für Popups für jedes Ei. Marker wird an Koordinaten gebunden und enthält Verlinkungen zu Wikipedia-Artikeln.
-					Bei der Tabellenverlinkung wird eine Tabelle erstellt mit den Messwerten von heute, gestern und vorgestern */
+				/* Create Popups for each egg. Marker is bound to coordinates and containts links to Wikipedia articles.
+					By clicking the link to the table a table is created with measuring values of today, yesterday and two days ago. */
 					
 				var markerEggs = L.marker([EggCoordX, EggCoordY],{icon: eggIcon}).bindPopup(
 					EggName+"</br>Letzte Messung: "+EggTime+"</br><a href=\"http://de.wikipedia.org/wiki/Temperatur\" target=\"_blank\">Temperatur</a>: "
@@ -148,13 +141,14 @@
 					+EggHum+" %</br><a href=\"http://de.wikipedia.org/wiki/Kohlenstoffmonoxid\"target=\"_blank\">Kohlenstoffmonoxid</a>: "
 					+EggCO+" ppm</br><a href=\"http://de.wikipedia.org/wiki/Stickstoffdioxid\"target=\"_blank\">Stickstoffdioxid</a>: "
 					+EggNO2+" ppm</br><a href=\"http://de.wikipedia.org/wiki/Ozon\"target=\"_blank\">Ozon</a>: "
-					+EggO3+" ppm</br></br><a href=\"Tabelle.php?starting=<?php echo $vorgestern?>&ending=<?php echo $heute?>&foiid="+EggFoi+"\"_blank\">Tabelle</a> ")
+					+EggO3+" ppm</br></br><a href=\"Tabelle.php?starting=<?php echo $vorgestern?>&ending=<?php echo $heute?>&foiid="+EggFoi+"\"_blank\">Tabelle</a> "
+					+"<br><a href=\"Diagramme.php?starting=<?php echo $heute?>$ending=<?php echo $heute?>$foiid="+EggFoi+"\"_blank\">Diagramme</a>")
 					;
-				EierLayer[i] = markerEggs;		// Layer Array für jegliche Eier
+				EierLayer[i] = markerEggs;		// Layer array for all eggs
 				i++;
 			}
 			
-			/* Analog zu dem obigen Teil mit den Air Quality Eggs */
+			/* Analogue to the part above for the Air Quality Eggs */
 			
 			var j = 0;
 			var LanuvLayer = new Array();
@@ -194,30 +188,40 @@
 				if (LanuvTime[j] === undefined) {var LANUVTime = '-'}
 				else var LANUVTime = LanuvTime[j].time_stamp;
 
-				/* Unterscheidung zwischen Geist und Weseler muss erfolgen, da nicht beide Messstationen die selben Messparameter besitzen */
+				/* Distinction between Geist and Weseler is needed, because both measuring stations are not using the same measuring parameters */
 				
 				if (LANUVFoi == 'Geist') {
+					if (LANUVNO != '-') {LANUVNO = Math.round((LANUVNO / 1.23) * 100000) / 100000}
+					if (LANUVNO2 != '-') {LANUVNO2 = Math.round((LANUVNO2 * 0.000532) * 100000) / 100000}
+					if (LANUVPM10 != '-') {LANUVPM10 = Math.round(LANUVPM10 * 100000) / 100000}
+					if (LANUVSO2 != '-') {LANUVSO2 = Math.round((LANUVSO2 / 2.86) * 100000) / 100000}
+					if (LANUVO3 != '-') {LANUVO3 = Math.round((LANUVO3 * 2 / 1000) * 100000) / 100000}
 					var markerLanuv = L.marker([LANUVCoordX, LANUVCoordY],{icon: lanuvIcon}).bindPopup(
 						LANUVName+"</br>Letzte Messung: "+LANUVTime+"</br><a href=\"http://de.wikipedia.org/wiki/Stickstoffmonoxid\" target=\"_blank\">Stickstoffmonoxid</a>: "
-						+LANUVNO+" µg/m³</br><a href=\"http://de.wikipedia.org/wiki/Stickstoffdioxid\" target=\"_blank\">Stickstoffdioxid</a>: "
-						+LANUVNO2+" µg/m³</br><a href=\"http://de.wikipedia.org/wiki/PM10\" target=\"_blank\">Feinstaub</a>: "
-						+LANUVPM10+" µg/m³</br><a href=\"http://de.wikipedia.org/wiki/Schwefeldioxid\" target=\"_blank\">Schwefeldioxid</a>: "
-						+LANUVSO2+" µg/m³</br><a href=\"http://de.wikipedia.org/wiki/Ozon\" target=\"_blank\">Ozon</a>: "
-						+LANUVO3+" µg/m³</br></br><a href=\"Tabelle.php?starting=<?php echo $vorgestern?>&ending=<?php echo $heute?>&foiid="+LANUVFoi+"\"_blank\">Tabelle</a> ")
+						+LANUVNO+" ppm</br><a href=\"http://de.wikipedia.org/wiki/Stickstoffdioxid\" target=\"_blank\">Stickstoffdioxid</a>: "
+						+LANUVNO2+" ppm</br><a href=\"http://de.wikipedia.org/wiki/PM10\" target=\"_blank\">Feinstaub</a>: "
+						+LANUVPM10+" &micro;g/m&sup3;</br><a href=\"http://de.wikipedia.org/wiki/Schwefeldioxid\" target=\"_blank\">Schwefeldioxid</a>: "
+						+LANUVSO2+" ppm</br><a href=\"http://de.wikipedia.org/wiki/Ozon\" target=\"_blank\">Ozon</a>: "
+						+LANUVO3+" ppm</br></br><a href=\"Tabelle.php?starting=<?php echo $vorgestern?>&ending=<?php echo $heute?>&foiid="+LANUVFoi+"\"_blank\">Tabelle</a> "
+						+"<br><a href=\"Diagramme.php?starting=<?php echo $heute?>$ending=<?php echo $heute?>$foiid="+LANUVFoi+"\"_blank\">Diagramme</a>")
 					;
 				}
 				else {
+					if (LANUVNO != '-') {LANUVNO = Math.round((LANUVNO / 1.23) * 100000) / 100000}
+					if (LANUVNO2 != '-') {LANUVNO2 = Math.round((LANUVNO2 * 0.000532) * 100000) / 100000}
+					if (LANUVPM10 != '-') {LANUVPM10 = Math.round((LANUVPM10) * 100000) / 100000}
 					var markerLanuv = L.marker([LANUVCoordX, LANUVCoordY],{icon: lanuvIcon}).bindPopup(
 						LANUVName+"</br>Letzte Messung: "+LANUVTime+"</br><a href=\"http://de.wikipedia.org/wiki/Stickstoffmonoxid\" target=\"_blank\">Stickstoffmonoxid</a>: "
-						+LANUVNO+" µg/m³</br><a href=\"http://de.wikipedia.org/wiki/Stickstoffdioxid\" target=\"_blank\">Stickstoffdioxid</a>: "
-						+LANUVNO2+" µg/m³</br><a href=\"http://de.wikipedia.org/wiki/PM10\" target=\"_blank\">Feinstaub</a>: "
-						+LANUVPM10+" µg/m³</br></br><a href=\"Tabelle.php?starting=<?php echo $vorgestern?>&ending=<?php echo $heute?>&foiid="+LANUVFoi+"\"_blank\">Tabelle</a> ")
+						+LANUVNO+" ppm</br><a href=\"http://de.wikipedia.org/wiki/Stickstoffdioxid\" target=\"_blank\">Stickstoffdioxid</a>: "
+						+LANUVNO2 +" ppm</br><a href=\"http://de.wikipedia.org/wiki/PM10\" target=\"_blank\">Feinstaub</a>: "
+						+LANUVPM10+" &micro;g/m&sup3;</br></br><a href=\"Tabelle.php?starting=<?php echo $vorgestern?>&ending=<?php echo $heute?>&foiid="+LANUVFoi+"\"_blank\">Tabelle</a> "
+						+"<br><a href=\"Diagramme.php?starting=<?php echo $heute?>$ending=<?php echo $heute?>$foiid="+LANUVFoi+"\"_blank\">Diagramme</a>")
 					;
 				}
 				LanuvLayer[j] = markerLanuv;
 				j++;
 			}
-			/* Definierung der beiden Layergruppen und hinzufügen zur Karte */
+			/* Defining both layer groups and add them to the map */
 			var AQEs = L.layerGroup(EierLayer);
 			var Lanuvs = L.layerGroup(LanuvLayer);
 			
@@ -230,41 +234,6 @@
 				
 			L.control.layers(null,OverlayMaps).addTo(map);
 			
-		}
-		
-		/* Funktionen der Adresssuche. Credits dafür gehen an das Tutorial von derickr: 
-			https://github.com/derickr/osm-tools/tree/master/leaflet-nominatim-example */
-			
-		function chooseAddr(lat, lng, type) {
-			var location = new L.LatLng(lat, lng);
-			map.panTo(location);
-			if (type == 'city' || type == 'administrative') {
-				map.setZoom(11);
-			} else {
-				map.setZoom(15);
-			}
-		}
-
-		function addr_search() {
-			var inp = document.getElementById("addr");
-			$.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + inp.value, function(data) {
-				var items = [];
-
-				$.each(data, function(key, val) {
-					items.push("<li><a href='#' onclick='chooseAddr(" + val.lat + ", " + val.lon + ", \"" + val.type + "\");return false;'>" + val.display_name + '</a></li>');
-				});
-
-				$('#results').empty();
-					if (items.length != 0) {
-						$('<p>', { html: "Search results:" }).appendTo('#results');
-						$('<ul/>', {
-							'class': 'my-new-list',
-							html: items.join('')
-						}).appendTo('#results');
-					} else {
-						$('<p>', { html: "No results found" }).appendTo('#results');
-					}
-			});
 		}
 
 		window.onload = load_map;

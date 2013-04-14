@@ -23,27 +23,86 @@
 				<li><a href="Karte.php">Karte</a></li>
 				<li><a href="Diagramme.php">Diagramme</a></li>
 				 <li><a href="Tabelle.php">Tabelle</a></li>
-				 <li class="current"><a href="Hilfe.php">Hilfe</a></li>
+				 <li><a href="SOS.php">SOS</a></li>
+				 <li class="current"><a href="Hilfe.php">Hilfe & FAQ</a></li>
 				 <li><a href="Impressum.php">Impressum</a></li>
+				 <li><a href="../mobile/homemobile.php">Mobile Ansicht</a></li>
 				</ul>
 		</div>
         <div id="contentwrap">
 			<div id="content"> <!-- Der Content der Seite (Akkordion), bisher nur Platzhalter-->
 			<div class="accordionSlider"><div class="accordionSliderHead">
-				<h3>Bei mir auf der Karte werden keine Eier angezeigt. Was kann ich tun?</h3>
+				<h3>Was ist ein Air Quality Egg?</h3>
 				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
-				<div><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed feugiat nulla. Integer vitae erat id purus iaculis viverra. Mauris molestie luctus elit, tristique adipiscing justo placerat id. Duis porta fringilla ligula vitae placerat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent non molestie eros. Nunc congue fringilla odio, a eleifend felis dapibus sed.<br><br>
-				Aliquam ac ligula non felis aliquet venenatis. Quisque id arcu leo, id consequat dolor. Vivamus leo nisl, tincidunt in tincidunt at, tempus ut massa. Sed vel dolor quis odio vehicula tincidunt quis eu est. Morbi mattis mollis diam. Sed interdum semper ante, non rutrum orci condimentum nec. Donec vitae suscipit orci. Sed sit amet tortor sed lacus lobortis vestibulum. Suspendisse feugiat pharetra lectus, vehicula blandit felis pellentesque eu. Nam egestas, lorem et iaculis fringilla, dui nunc cursus erat, condimentum malesuada odio risus eu mauris.<br><br>
+				<div><br>Ein Air Quality Egg (kurz: AQE) ist ein über Kick-Starter finanziertes Projekt. Gestartet wurde es von der Gruppierung Sensmakers. Das Air Quality Egg soll eine günstige und möglichst weltweit verteiltes Luftqualitätssensornetzwerk werden. Mithilfe dieses Netzwerks soll dann für jedermann eine erste gute Anlaufstelle zu dem Thema Luftqualität realisiert werden. Die gesammelten Daten dieses Sensornetzwerkes werden auf cosm.com hoch geladen und können von dort weiter verarbeitet werden.
 				</div>
-			</div></div></div>
+			</div></div></div><br>
 			<div class="accordionSlider"><div class="accordionSliderHead">
-				<h3>Warum funktioniert die Suche bei der Karte nicht?</h3>
+				<h3>Was ist eine Lanuv-Station?</h3>
 				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
-				<div><br>Mauris pellentesque tincidunt tincidunt. Proin malesuada, elit nec placerat convallis, tellus velit ornare nunc, eu porta sem leo et magna. Pellentesque ornare orci eu mauris semper volutpat. In vitae leo dolor. Maecenas sed hendrerit erat. Phasellus eu consequat est. Cras in urna ligula, vestibulum porttitor lorem. Nunc dictum porttitor sodales. Sed et dignissim nisi. Etiam eget lacus orci. Curabitur varius lobortis lorem, ac molestie turpis sagittis eget. Donec laoreet orci eu enim condimentum ut fermentum neque luctus. Nunc in est justo, in fermentum mi. Integer id quam eros, sed tempus tortor. <br><br>
-				Suspendisse dapibus tincidunt rhoncus. In blandit vestibulum nisl, et lobortis purus volutpat vel. Nulla facilisi. Sed ornare lectus quis eros egestas adipiscing tincidunt dolor porta. Fusce et orci leo. Nunc iaculis euismod luctus. Maecenas blandit ultrices sem eget scelerisque. Vivamus eu mauris tellus. Curabitur mi metus, mollis a euismod at, feugiat vel quam. Nunc ac arcu nunc, et rhoncus lacus. Nunc arcu dui, porta a consequat at, bibendum non augue. Sed interdum erat eu purus aliquam consectetur. Donec in turpis ac leo consectetur egestas non sit amet enim. Suspendisse nec nunc quis nunc vulputate sollicitudin. <br><br>
-				Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam viverra urna eu mauris porttitor placerat. Curabitur pulvinar condimentum accumsan. Sed eu massa vel leo lobortis hendrerit at eget diam. Morbi non lobortis metus. Praesent mi magna, tincidunt quis auctor at, aliquam ac dui. Suspendisse sapien dolor, ultricies vitae sollicitudin vel, sollicitudin eu velit. Donec velit enim, malesuada vel pretium in, ultricies ut ligula. Pellentesque vitae nisi diam, sed laoreet dui. Curabitur volutpat est libero. Sed sapien arcu, porttitor id lobortis id, scelerisque vel justo. Donec id leo ligula. Vestibulum ut mattis metus. Proin a ligula in metus varius tempor quis vel orci. Sed sapien nulla, accumsan a aliquam sed, ultrices ac diam. Nunc iaculis commodo augue non bibendum.<br><br>	
+				<div><br>Lanuv ist das "Landesamt für Natur, Umwelt und Verbraucherschutz NRW". Die Lanuv-Stationen, die auf unserer Seite dargestellt werden, sind Luftqualitätsmessstationen. Weitere Informationen gibt es auf der Lanuv Website.
 				</div>
-			</div></div></div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Was ist cosm?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Cosm ist eine Plattform um gesammelte Daten online zur Verfügung und zur Weiterverarbeitung bereit zu stellen.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Warum wird die Karte nicht angezeigt?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Damit die Karte angezeigt wird muss Javascript im Browser aktiviert sein. Dies ist in den Browsereinstellungen möglich.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Warum werden in den Popups teilweise keine Werte angezeigt?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Das kann dadurch passieren, dass noch keine aktuellen Werte vorliegen. Sobald es passende Werte gibt, werden sie sofort auf der Karte in Skyeagle angezeigt.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Wo bekomme ich weitere Informationen über die gemessenen Werte?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Wenn auf der Karte eine Messstation ausgewählt wird, so öffnet sich ein kleines Popup. Klickt man innerhalb dessen auf einen Messparameter, so öffnet sich automatisch ein weiteres Fenster zu einem Wikipediaartikel des jeweiligen Messwertes.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Warum haben manche Air Quality Eggs keine Werte?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Die Air Quality Eggs sind noch ein junges Projekt und besitzen noch einige "Kinderkrankheiten". Es wird ständig daran gearbeitet Fehler zu beheben. Ebenso können AQEs ohne Werte nicht mehr am Netz sein und so keine Werte mehr liefern.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Wieso werden in meinem Zeitintervall keine Werte in der Tabelle angezeigt?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Falls keine Werte angezeigt werden, liegt es daran, dass für diesen Zeitpunkt keine Werte in der Datenbank vorliegen.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Wieso werden in den Diagrammen zum Teil Lücken angezeigt?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Sollte es von einer Messstation zu dem Zeitpunkt keine Daten geben, so kann zu diesem Zeitpunkt kein Wert angezeigt werden.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Wie werden die Daten validiert?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Die Datenvalidierung erfolgt mithilfe einer zweiseitigen "moving window" Validierung. Die validierten Daten kann man sowohl im Diagramm, als auch in der Tabellenansicht betrachten, wenn man auf "Bereinigte Daten" klickt.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Wie kommen Ausreißer zu Stande?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Ausreißer können viele Gründe haben, wie beispielsweise Messfehler oder unnatürliche Einflüsse. Eine erste Ausreißererkennung haben wir mit Skyeagle realisiert.
+				</div>
+			</div></div></div><br>
+			<div class="accordionSlider"><div class="accordionSliderHead">
+				<h3>Kann ich auch mitmachen?</h3>
+				</div><div class="accordionSliderBody"><div class="accordionSliderInBody">
+				<div><br>Mitmachen kann jeder der Interesse daran hat sein eigenes Air Quality Egg aufzustellen. Dabei geht es ganz einfach: AQE kaufen, aufstellen und bei cosm.com mit #muensteregg taggen und dein AQE erscheint automatisch nach ungefähr einer Stunde nach dem hochladen auf Skyeagle.
+				</div>
+			</div></div></div><br>
 			</div>
 		</div>
     </div>

@@ -41,19 +41,33 @@
 	<link rel="shortcut icon" href="../images/egg_v1.png">
 	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
 
-	
+
 <script>
-$(function() {
-var numchked = $(":checkbox").filter(":checked").size();
-if (numchked > 3){
+function chkbox(){
+var formobj = document.forms[0];
+
+var counter = 0;
+for (var j = 0; j < formobj.elements.length; j++)
+{
+    if (formobj.elements[j].type == "checkbox")
+    {
+        if (formobj.elements[j].checked)
+        {
+            counter++;
+        }
+    }       
+}
+if (counter > 3){
 	alert("Es wurden mehr als 3 Messwerte ausgewählt");
+	document.getElementById("submit").disabled = true;
 }
-else {
+if (counter <= 3){
+	document.getElementById("submit").disabled = false;
 }
-	
 }
-)
-</script>	
+
+
+</script>
 	
 		
 <script>
@@ -171,16 +185,7 @@ $(function() {
 				var data3 = new google.visualization.DataTable(<?php getValues($_POST['observation']['2'])?>);
 				var chart3 = new google.visualization.LineChart(document.getElementById('chart3_div')); <?php
 				break;
-				
-				case 4: ?> var data = new google.visualization.DataTable(<?php getValues($_POST['observation']['0'])?>);
-				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-				var data2 = new google.visualization.DataTable(<?php getValues($_POST['observation']['1'])?>);
-				var chart2 = new google.visualization.LineChart(document.getElementById('chart2_div'));
-				var data3 = new google.visualization.DataTable(<?php getValues($_POST['observation']['2'])?>);
-				var chart3 = new google.visualization.LineChart(document.getElementById('chart3_div'));
-				var data4 = new google.visualization.DataTable(<?php getValues($_POST['observation']['3'])?>);
-				var chart4 = new google.visualization.LineChart(document.getElementById('chart4_div')); <?php
-				break;				
+				 			
 		        
 		}
 }
@@ -227,7 +232,7 @@ $(function() {
 				<li class="current"><a href="Diagramme.php">Diagramme</a></li>
 				<li><a href="Tabelle.php">Tabelle</a></li>
 				<li><a href="SOS.php">SOS</a></li>
-				<li><a href="Hilfe.php">Hilfe</a></li>
+				<li><a href="Hilfe.php">Hilfe & FAQ</a></li>
 				<li><a href="Impressum.php">Impressum</a></li>
 				<li><a href="../mobile/homemobile.php">Mobile Ansicht</a></li>
 			</ul>
@@ -236,14 +241,14 @@ $(function() {
 			<div id="content">
 				<form action = "Diagramme.php" method ="post" id = "form" name="form">
 					<fieldset>
-						<legend>Bitte w&auml;hlen Sie eine Messstation</legend>
+						<legend>Bitte w&auml;hlen Sie eine Messstation:</legend>
 						<p>
 							<label>Messstation</label>
 							<?php createOptionList();?>
 						</p>
 					</fieldset>
 					<fieldset>
-						<legend>Bitte w&auml;hlen Sie ein Zeitintervall</legend>
+						<legend>Bitte w&auml;hlen Sie ein Zeitintervall:</legend>
 						<p>
 						<label for = "datepicker">von:</label>			
 						<input type = "text" 
@@ -261,7 +266,7 @@ $(function() {
 						</p>
 					</fieldset>
 					<fieldset>
-						<legend>Bitte w&auml;hlen Sie aus, ob das Diagramm Ausrei&szlig;er beinhalten soll oder nicht</legend>
+						<legend>Bitte w&auml;hlen Sie aus, ob das Diagramm Ausrei&szlig;er beinhalten soll oder nicht:</legend>
 						<p>
 						<?php 
 							createRadioButtons();
@@ -270,7 +275,7 @@ $(function() {
 						</p>
 					</fieldset>
 					<fieldset>
-						<legend>Bitte w&auml;hlen Sie aus, welche Messwerte sie im Diagramm anzeigen wollen</legend>
+						<legend>Bitte w&auml;hlen Sie aus, welche Messwerte sie im Diagramm anzeigen wollen. Bitte wählen Sie maximal 3 Messwerte aus:</legend>
 						<p>
 						<?php 
 							createCheckboxes();

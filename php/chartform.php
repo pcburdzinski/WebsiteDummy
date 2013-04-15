@@ -51,7 +51,8 @@ function createCheckboxes(){
 	echo' 				<input type = "checkbox"
 							id = "chkCO"
 							value = "CO_CONCENTRATION"
-							name = "observation[]"';
+							name = "observation[]"
+							onclick="chkbox()"';
 							 	  if (isset($_POST['observation'])){
 							 			if (in_array("CO_CONCENTRATION", $_POST['observation'])){
 											echo 'checked ="checked"';
@@ -68,7 +69,8 @@ function createCheckboxes(){
 						<input type = "checkbox"
 							id="chkNO"
 							value = "NO_CONCENTRATION"
-							name= "observation[]"';
+							name= "observation[]"
+							onclick="chkbox()"';
 							  		if (isset($_POST['observation'])){
 							 			if (in_array("NO_CONCENTRATION", $_POST['observation'])){
 											echo 'checked ="checked"';
@@ -85,7 +87,8 @@ function createCheckboxes(){
 						<input type = "checkbox"
 							id = "chkNO2"
 							value = "NO2_CONCENTRATION"
-							name = "observation[]"';
+							name = "observation[]"
+							onclick="chkbox()"';
 							 		if (isset($_POST['observation'])){
 							 			if (in_array("NO2_CONCENTRATION", $_POST['observation'])){
 											echo 'checked ="checked"';
@@ -97,7 +100,8 @@ function createCheckboxes(){
 						<input type = "checkbox"
 							id = "chkO3"
 							value = "O3_CONCENTRATION"
-							name = "observation[]"';
+							name = "observation[]"
+							onclick="chkbox()"';
 							 		if (isset($_POST['observation'])){
 							 			if (in_array("O3_CONCENTRATION", $_POST['observation'])){
 											echo 'checked ="checked"';
@@ -109,7 +113,8 @@ function createCheckboxes(){
 						<input type = "checkbox"
 							id = "chkPM10"
 							value = "PM10_CONCENTRATION"
-							name = "PM10"';
+							name = "PM10"
+							onclick="chkbox()"';
 							 		if (isset($_POST['observation_'])){
 							 			if ($_POST['PM10'] == "PM10_CONCENTRATION"){
 											echo 'checked ="checked"';
@@ -126,7 +131,8 @@ function createCheckboxes(){
 						<input type = "checkbox"
 							id = "chkSO2"
 							value = "SO2_CONCENTRATION"
-							name = "observation[]"';
+							name = "observation[]"
+							onclick="chkbox()"';
 							 		if (isset($_POST['observation'])){
 							 			if (in_array("SO2_CONCENTRATION", $_POST['observation'])){
 											echo 'checked ="checked"';

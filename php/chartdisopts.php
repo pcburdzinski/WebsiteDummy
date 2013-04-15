@@ -98,7 +98,7 @@ if (isset($_POST['observation']) AND isset($_POST['outliers'])){
         	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
         	    							hAxis:{title: "Datum", slantedText:false},
         	    							chartArea:{width: "50%"}});
-							char2.draw(data2, {curveType: "function",
+							chart2.draw(data2, {curveType: "function",
         	    							width: 900, height: 400,
         	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
         	    							hAxis:{title: "Datum", slantedText:false},
@@ -110,27 +110,6 @@ if (isset($_POST['observation']) AND isset($_POST['outliers'])){
         	    							chartArea:{width: "50%"}});';
 			break;
 		
-			case 4: echo 'chart.draw(data, {curveType: "function",
-        	    							width: 900, height: 400,
-        	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
-        	    							hAxis:{title: "Datum", slantedText:false},
-        	    							chartArea:{width: "50%"}});
-							chart2.draw(data2, {curveType: "function",
-        	    							width: 900, height: 400,
-        	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
-        	    							hAxis:{title: "Datum", slantedText:false},
-        	    							chartArea:{width: "50%"}});
-							chart3.draw(data3, {curveType: "function",
-        	    							width: 900, height: 400,
-        	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
-        	    							hAxis:{title: "Datum", slantedText:false},
-        	    							chartArea:{width: "50%"}});
-							chart4.draw(data4, {curveType: "function",
-        	    							width: 900, height: 400,
-        	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
-        	    							hAxis:{title: "Datum", slantedText:false},
-        	    							chartArea:{width: "50%"}});';
-			break;
 		}
 	if(isset($_POST['PM10'])){ if($_POST['PM10'] == "PM10_CONCENTRATION"){ echo '
 										chart3.draw(data3, {curveType: "function",
@@ -185,31 +164,6 @@ if (isset($_POST['observation']) AND isset($_POST['outliers'])){
         									series:{1:{color:"red", lineWidth: 0, pointSize: 5}}});';
 			break;
 
-			case 4: echo 'chart.draw(data, {curveType: "function",
-        	    							width: 900, height: 400,
-        	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
-        	    							hAxis:{title: "Datum", slantedText:false},
-        	    							chartArea:{width: "50%"},
-        									series:{1:{color:"red", lineWidth: 0, pointSize: 5}}});
-							chart2.draw(data2, {curveType: "function",
-        	    							width: 900, height: 400,
-        	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
-        	    							hAxis:{title: "Datum", slantedText:false},
-        	    							chartArea:{width: "50%"},
-        									series:{1:{color:"red", lineWidth: 0, pointSize: 5}}});					
-							chart3.draw(data3, {curveType: "function",
-        	    							width: 900, height: 400,
-        	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
-        	    							hAxis:{title: "Datum", slantedText:false},
-        	    							chartArea:{width: "50%"},
-        									series:{1:{color:"red", lineWidth: 0, pointSize: 5}}});
-							chart4.draw(data4, {curveType: "function",
-        	    							width: 900, height: 400,
-        	    							vAxis:{title: "Werte in ppm", viewWindow:{min: 0}},
-        	    							hAxis:{title: "Datum", slantedText:false},
-        	    							chartArea:{width: "50%"},
-        									series:{1:{color:"red", lineWidth: 0, pointSize: 5}}});';
-			break;
 			}
 			if(isset($_POST['PM10'])){ if($_POST['PM10'] == "PM10_CONCENTRATION"){
 			echo 'chart3.draw(data3, {curveType: "function",

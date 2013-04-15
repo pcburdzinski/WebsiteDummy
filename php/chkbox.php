@@ -57,15 +57,15 @@ function changeForm(name){
 				} else { echo 'checkboxNO.checked = true;
 					checkboxNO2.checked = true;
 					checkboxO3.checked = true;
-					checkboxPM10.checked = true;
-					checkboxSO2.checked = true;';
+					checkboxPM10.checked = false;
+					checkboxSO2.checked = false;';
 				}	
 		}
 		else { echo 'checkboxNO.checked = true;
 					checkboxNO2.checked = true;
 					checkboxO3.checked = true;
-					checkboxPM10.checked = true;
-					checkboxSO2.checked = true;';
+					checkboxPM10.checked = false;
+					checkboxSO2.checked = false;';
 		}
 	?>
 	}
